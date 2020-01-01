@@ -1,0 +1,97 @@
+;    Installation file for ELAN USB Device
+;
+;    (c) Copyright 2007 ELAN
+;
+
+[Version]
+Signature="$Chicago$"
+Class=USB
+ClassGUID={36FC9E60-C465-11CF-8056-444553540000}
+Provider=%ELAN.Corp%
+DriverVer=06/20/2007,1.1.1.1
+CatalogFile=elanusb.cat
+
+[SourceDisksNames]
+1=%Disk%,,,\x86
+2=%Disk%,,,\ia64
+3=%Disk%,,,\amd64
+
+[SourceDisksFiles]
+elanusb.sys=1
+
+[SourceDisksFiles.x86]
+elanusb.sys=1
+
+[SourceDisksFiles.ia64]
+elanusb.sys=2
+
+[SourceDisksFiles.amd64]
+elanusb.sys=3
+
+[Manufacturer]
+%ELAN.Corp% = ELAN, NTx86, NTia64, NTamd64
+
+[ELAN]
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_04f3&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1267&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1B47&PID_0001
+
+[ELAN.NTx86]
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_04f3&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1267&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1B47&PID_0001
+
+[ELAN.NTia64]
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_04f3&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1267&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1B47&PID_0001
+
+[ELAN.NTamd64]
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_04f3&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1267&PID_0000
+%USB\ElanDevice.DeviceDesc%=ELANUSB.Dev, USB\VID_1B47&PID_0001
+
+[DestinationDirs]
+ELANUSB.Files.Ext=10,System32\Drivers
+
+[ELANUSB.Dev]
+CopyFiles=ELANUSB.Files.Ext
+AddReg=ELANUSB.AddReg
+
+[ELANUSB.Dev.Services]
+AddService = ELANUSB, %SPSVCINST_ASSOCSERVICE%, ELANUSB.AddService
+
+[ELANUSB.AddService]
+DisplayName    = %ELANUSB.ServiceName%
+ServiceType    = %SERVICE_KERNEL_DRIVER%
+StartType      = %SERVICE_DEMAND_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = %10%\System32\Drivers\elanusb.sys
+LoadOrderGroup = Base
+
+[ELANUSB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,elanusb.sys
+HKR,"Parameters","MaximumTransferSize",0x10001,4096
+HKR,"Parameters","DebugLevel",0x10001,2
+HKR,"Parameters","BulkUsbEnable",0x10001,1
+
+
+[ELANUSB.Files.Ext]
+elanusb.sys
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Strings
+
+[Strings]
+Disk="Installation Disk"
+ELAN.Corp="ELAN"
+USB\ElanDevice.DeviceDesc="ELAN USB Device"
+ELANUSB.ServiceName="ELAN USB IO driver"
+
+SPSVCINST_ASSOCSERVICE=0x00000002	; Driver service is associated with device being installed
+COPYFLG_NOSKIP=2	; Do not allow user to skip file
+SERVICE_KERNEL_DRIVER=1
+SERVICE_AUTO_START=2
+SERVICE_DEMAND_START=3
+SERVICE_ERROR_NORMAL=1

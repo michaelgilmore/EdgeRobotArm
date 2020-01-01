@@ -1,0 +1,1 @@
+x86\DPInst.exe /lm /sa
